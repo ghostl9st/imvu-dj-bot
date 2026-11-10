@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 class Bot(ClientXMPP):
     def __init__(self, jid, password, room, nick):
-        super().__init__(jid, password)
+        super().__init__(jid, password, use_aiodns=False)
         self.room = room
         self.nick = nick
         self.add_event_handler("session_start", self.start)
@@ -114,7 +114,7 @@ def correr_bot():
     print(f">>> INICIANDO BOT {USUARIO}", flush=True)
     print(f">>> CLAVE TIENE {len(CLAVE)} CARACTERES", flush=True)
     bot = Bot(USUARIO, CLAVE, SALA, NICK)
-    bot.connect(address=('chat.imvu.com', 5222))
+    bot.connect()
     bot.process(forever=True)
 
 if __name__ == "__main__":
