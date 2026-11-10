@@ -128,14 +128,10 @@ class MusicBot(sleekxmpp.ClientXMPP):
             self.send_message(mto=SALA, mbody=f"Cola:\n{lista}", mtype='groupchat')
 
 def correr_bot():
-    global bot_instance
+    import asyncio
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     bot_instance = MusicBot(USUARIO_BOT, PASSWORD_BOT)
-    bot_instance.register_plugin('xep_0030')
-    bot_instance.register_plugin('xep_0045')
-    bot_instance.register_plugin('xep_0199')
-    bot_instance.connect()
-    bot_instance.process(block=True)
-
 if __name__ == '__main__':
     threading.Thread(target=correr_bot, daemon=True).start()
     port = int(os.environ.get("PORT", 5000))
