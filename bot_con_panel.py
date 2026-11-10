@@ -42,8 +42,7 @@ class Bot(ClientXMPP):
 
 @app.route("/")
 def home():
-    return f"IP: {socket.gethostbyname('chat.imvu.com')}"
-
+    return "Bot DJ corriendo"
 def correr_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
     print(f">>> INICIANDO BOT {USUARIO}", flush=True)
@@ -51,7 +50,7 @@ def correr_bot():
     bot = Bot(USUARIO, CLAVE, SALA, NICK)
     bot.use_aiodns = False
     print(">>> INTENTANDO CONECTAR SIN AIODNS", flush=True)
-    ok = bot.connect()
+    bot.connect(address=('204.225.145.55', 5222))
     print(f">>> RESULTADO CONNECT: {ok}", flush=True)
     bot.process(forever=True)
 
