@@ -1,14 +1,14 @@
 # bot_con_panel.py - Versión Render CORREGIDA
-import os, threading
+import os, threading, asyncio
 from flask import Flask, render_template_string, request, jsonify
 import slixmpp as sleekxmpp
 from youtubesearchpython import VideosSearch
 from collections import deque
 
-USUARIO_BOT = os.getenv("IMVU_USER", "tu_usuario_bot")
+USUARIO_BOT = os.getenv("IMVU_USER", "l9stmusic@chat.imvu.com")
 PASSWORD_BOT = os.getenv("IMVU_PASS", "tu_contraseña_bot")
-SALA = os.getenv("IMVU_ROOM", "tu_sala@conference.imvu.com")
-NICK_BOT = os.getenv("IMVU_NICK", "DJ Bot")
+SALA = os.getenv("IMVU_ROOM", "room-381655582-82@conference.chat.imvu.com")
+NICK_BOT = os.getenv("IMVU_NICK", "l9stmusic")
 
 app = Flask(__name__)
 cola = deque()
@@ -100,39 +100,4 @@ def agregar_a_cola(query, usuario):
         cola.append(cancion)
         if bot_instance: bot_instance.send_message(mto=SALA, mbody=f"🎵 Agregado a la cola: {cancion['titulo']} - Pedido por {usuario}", mtype='groupchat')
 
-def poner_actual(cancion):
-    global actual
-    actual = cancion
-    if bot_instance: bot_instance.send_message(mto=SALA, mbody=f"🎵 Ahora sonando: {cancion['titulo']} | {cancion['link']} | Pedido por {cancion['pedido_por']}", mtype='groupchat')
-
-def siguiente_cancion():
-    global actual
-    if cola: poner_actual(cola.popleft())
-    else: actual = {"titulo": "Nada sonando", "link": "", "pedido_por": ""}
-
-class MusicBot(sleekxmpp.ClientXMPP):
-    def __init__(self, jid, password):
-        super().__init__(jid, password)
-        self.add_event_handler("session_start", self.start)
-        self.add_event_handler("groupchat_message", self.mensaje)
-    def start(self, event):
-        self.send_presence(); self.get_roster()
-        self.plugin['xep_0045'].join_muc(SALA, NICK_BOT)
-    def mensaje(self, msg):
-        if msg['mucnick'] == NICK_BOT: return
-        texto = msg['body'].strip(); usuario = msg['mucnick']
-        if texto.lower().startswith("!play "): agregar_a_cola(texto[6:], usuario)
-        elif texto.lower() == "!skip": siguiente_cancion()
-        elif texto.lower() == "!cola":
-            lista = "\n".join([f"{i+1}. {c['titulo']}" for i,c in enumerate(cola)]) or "Cola vacía"
-            self.send_message(mto=SALA, mbody=f"Cola:\n{lista}", mtype='groupchat')
-
-def correr_bot():
-    import asyncio
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    bot_instance = MusicBot(USUARIO_BOT, PASSWORD_BOT)
-if __name__ == '__main__':
-    threading.Thread(target=correr_bot, daemon=True).start()
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+def poner_actual(c
