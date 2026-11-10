@@ -50,7 +50,7 @@ def correr_bot():
     bot = Bot(USUARIO, CLAVE, SALA, NICK)
     bot.use_aiodns = False
     print(">>> INTENTANDO CONECTAR SIN AIODNS", flush=True)
-    bot.address = ('204.225.145.55', 5222)
+    bot.address = ('chat.imvu.com', 5222)
     bot.process(forever=True)
 
 if __name__ == "__main__":
