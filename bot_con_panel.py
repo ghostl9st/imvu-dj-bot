@@ -1,4 +1,6 @@
 import os, threading, asyncio
+from flask import Flask
+from slixmpp import ClientXMPP
 
 print(">>> ARCHIVO CARGADO - VERSION NUEVA", flush=True)
 
