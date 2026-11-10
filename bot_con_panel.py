@@ -42,7 +42,7 @@ class Bot(ClientXMPP):
 
 @app.route("/")
 def home():
-    return "Bot DJ PRUEBA123"
+    return f"IP: {socket.gethostbyname('chat.imvu.com')}"
 
 def correr_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
