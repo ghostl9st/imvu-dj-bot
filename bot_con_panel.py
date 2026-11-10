@@ -42,7 +42,7 @@ class Bot(ClientXMPP):
 
 @app.route("/")
 def home():
-    return "Bot DJ corriendo"
+    return "Bot DJ PRUEBA123"
 
 def correr_bot():
     asyncio.set_event_loop(asyncio.new_event_loop())
