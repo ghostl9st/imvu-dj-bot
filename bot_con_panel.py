@@ -100,4 +100,12 @@ def agregar_a_cola(query, usuario):
         cola.append(cancion)
         if bot_instance: bot_instance.send_message(mto=SALA, mbody=f"🎵 Agregado a la cola: {cancion['titulo']} - Pedido por {usuario}", mtype='groupchat')
 
-def poner_actual(c
+def poner_actual(cancion):
+    global actual
+    actual = cancion
+    if bot_instance: bot_instance.send_message(mto=SALA, mbody=f"🎵 Ahora sonando: {cancion['titulo']} | {cancion['link']} | Pedido por {cancion['pedido_por']}", mtype='groupchat')
+
+def siguiente_cancion():
+    global actual
+    if cola: poner_actual(cola.popleft())
+    else: actual = {"titulo": "Nada sonando", "link": "", "pedido_por": ""}
