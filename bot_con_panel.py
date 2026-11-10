@@ -1,6 +1,4 @@
-import os, threading
-from flask import Flask
-from slixmpp import ClientXMPP
+import os, threading, asyncio
 
 print(">>> ARCHIVO CARGADO - VERSION NUEVA", flush=True)
 
@@ -53,10 +51,10 @@ def home():
     return f"Bot DJ corriendo - Cola: {len(cola)}"
 
 def correr_bot():
+    asyncio.set_event_loop(asyncio.new_event_loop())
     print(f">>> INICIANDO BOT {USUARIO}", flush=True)
     print(f">>> CLAVE TIENE {len(CLAVE)} CARACTERES", flush=True)
     bot = Bot(USUARIO, CLAVE, SALA, NICK)
-    # Conectar directo al servidor de IMVU
     bot.connect(address=('chat.imvu.com', 5222))
     bot.process(forever=True)
 
