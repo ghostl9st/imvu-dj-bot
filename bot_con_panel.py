@@ -44,6 +44,13 @@ class Bot(ClientXMPP):
 def home():
     return "Bot DJ corriendo"
 def correr_bot():
+    import socket
+try:
+    s = socket.create_connection(('chat.imvu.com', 5222), timeout=5)
+    print(">>> PUERTO 5222 ABIERTO - SI SE PUEDE CONECTAR", flush=True)
+    s.close()
+except Exception as e:
+    print(f">>> PUERTO 5222 BLOQUEADO / NO RESPONDE: {e}", flush=True)
     asyncio.set_event_loop(asyncio.new_event_loop())
     print(f">>> INICIANDO BOT {USUARIO}", flush=True)
     print(f">>> CLAVE TIENE {len(CLAVE)} CARACTERES - CLAVE: {CLAVE[:2]}***", flush=True)
